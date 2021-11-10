@@ -1,0 +1,2 @@
+Type,Warehouse Name,Firstname,Lastname,Email,Address line 1,Address line 2 [Optional],City,State,Zipcode,Country
+Self,Test Warehouse,Test,Test,demo132@gmail.com,Address line 1,Address line 2,0,0,123456,US
