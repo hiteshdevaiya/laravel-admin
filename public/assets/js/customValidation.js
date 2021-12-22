@@ -2,6 +2,46 @@ jQuery.validator.addMethod("lettersonly", function(value, element) {
     return this.optional(element) || /^[a-z. \s]+$/i.test(value);
 }, "Only alphabetical characters");
 
+//roles
+$("#roles-form").validate({
+    rules: {
+        role: {
+            required: true,
+        },
+        // status: {
+        //     required: true,
+        // }
+    },
+    messages: {
+        role: {
+            required: "<p style='color: red;'>Please enter role</p>"
+        },
+        // status: {
+        //     required: "<p style='color: red;'>Please select status</p>"
+        // }
+    }
+});
+
+//modules
+$("#modules-form").validate({
+    rules: {
+        module: {
+            required: true,
+        },
+        // status: {
+        //     required: true,
+        // }
+    },
+    messages: {
+        module: {
+            required: "<p style='color: red;'>Please enter module</p>"
+        },
+        // status: {
+        //     required: "<p style='color: red;'>Please select status</p>"
+        // }
+    }
+});
+
 //create user
 $("#form-user").validate({
     rules: {
@@ -49,281 +89,50 @@ $("#form-user").validate({
     }
 });
 
-function check() {
-     $( "select option:selected").each(function(){
-         //console.log($(this).attr('value'));
-         if($(this).attr("value")=="1" || $(this).attr("value")=="2" )  {
-             $(".phone").hide();
-             $(".address").hide();
-             $(".address2").hide();
-             $(".city").hide();
-             $(".state").hide();
-             $(".country").hide();
-             $(".zipcode").hide();
-             $('#phone').rules('remove',  {
-                 required : true,
-                 messages : { required : 'Please enter phone number' }
-             });
-             $('#address').rules('remove',  {
-                 required : true,
-                 messages : { required : 'Please enter address' }
-             });
-             $('#city').rules('remove',  {
-                 required : true,
-                 messages : { required : 'Please enter city' }
-             });
-             $('#state').rules('remove',  {
-                 required : true,
-                 messages : { required : 'Please enter state' }
-             });
-             $('#country').rules('remove',  {
-                 required : true,
-                 messages : { required : 'Please enter country' }
-             });
-             $('#zipcode').rules('remove',  {
-                 required : true,
-                 messages : { required : 'Please enter zipcode' }
-             });
-         } else {
-             var user_role = $('#get_user_role').val();
-             $(".phone").show();
-             $(".address").show();
-             $(".address2").show();
-             $(".city").show();
-             $(".state").show();
-             $(".country").show();
-             $(".zipcode").show();
-             
-                 $('#phone').validate();
-                 $('#address').validate();
-                 $('#city').validate();
-                 $('#state').validate();
-                 $('#country').validate();
-                 $('#zipcode').validate();
-                 $('#phone').rules('add',  {
-                     required : true,
-                     messages : { required : 'Please enter phone number' }
-                 });
-                 $('#address').rules('add',  {
-                     required : true,
-                     messages : { required : 'Please enter address' }
-                 });
-                 $('#city').rules('add',  {
-                     required : true,
-                     messages : { required : 'Please enter city' }
-                 });
-                 $('#state').rules('add',  {
-                     required : true,
-                     messages : { required : 'Please enter state' }
-                 });
-                 $('#country').rules('add',  {
-                     required : true,
-                     messages : { required : 'Please enter country' }
-                 });
-                 $('#zipcode').rules('add',  {
-                     required : true,
-                     messages : { required : 'Please enter zipcode' }
-                 });
-             
-         }
-     });
-}
-
-
-//edit-user
-$("#edit-user").validate({
+//settings
+$("#settings").validate({
     rules: {
-        name: {
+        mail_driver: {
             required: true,
-            lettersonly:true
         },
-        email: {
+        mail_host: {
             required: true,
-            email: true
         },
-        company: {
-            required: true
+        mail_port: {
+            required: true,
+        },
+        mail_username: {
+            required: true,
+        },
+        mail_password: {
+            required: true,
+        },
+        mail_encryption: {
+            required: true,
         }
     },
     messages: {
-        name: {
-            required: "<p style='color: red;'>Please enter name</p>"
+        mail_driver: {
+            required: "<p style='color: red;'>Please enter mail driver</p>"
         },
-        email: {
-            required: "<p style='color: red;'>Please enter valid email</p>",
-            email: "<p style='color: red;'>Please enter valid email</p>"
+        mail_host: {
+            required: "<p style='color: red;'>Please enter mail host</p>"
         },
-        company: {
-            required: "<p style='color: red;'>Please enter company name</p>"
+        mail_port: {
+            required: "<p style='color: red;'>Please enter valid mail port</p>"
+        },
+        mail_username: {
+            required: "<p style='color: red;'>Please enter mail username</p>"
+        },
+        mail_password: {
+            required: "<p style='color: red;'>Please enter mail password</p>"
+        },
+        mail_encryption: {
+            required: "<p style='color: red;'>Please enter mail_encryption</p>",
         }
     }
 });
 
-function check1() {
-    $( "select option:selected").each(function(){
-        if($(this).attr("value")=="1" || $(this).attr("value")=="2" )  {
-            $(".phone").hide();
-            $(".address").hide();
-            $(".address2").hide();
-            $(".city").hide();
-            $(".state").hide();
-            $(".country").hide();
-            $(".zipcode").hide();
-            $('#phone').rules('remove',  'required');
-            $('#address').rules('remove',  'required');
-            $('#city').rules('remove',  'required');
-            $('#state').rules('remove',  'required');
-            $('#country').rules('remove',  'required');
-            $('#zipcode').rules('remove',  'required');
-        } else {
-            var user_role = $('#get_user_role').val();
-            $(".phone").show();
-            $(".address").show();
-            $(".address2").show();
-            $(".city").show();
-            $(".state").show();
-            $(".country").show();
-            $(".zipcode").show();
-            
-                $('#phone').validate();
-                $('#address').validate();
-                $('#city').validate();
-                $('#state').validate();
-                $('#country').validate();
-                $('#zipcode').validate();
-                 $('#phone').rules('add',  {
-                     required : true,
-                     messages : { required : 'Please enter phone number' }
-                 });
-                 $('#address').rules('add',  {
-                     required : true,
-                     messages : { required : 'Please enter address' }
-                 });
-                 $('#city').rules('add',  {
-                     required : true,
-                     messages : { required : 'Please enter city' }
-                 });
-                 $('#state').rules('add',  {
-                     required : true,
-                     messages : { required : 'Please enter state' }
-                 });
-                 $('#country').rules('add',  {
-                     required : true,
-                     messages : { required : 'Please enter country' }
-                 });
-                 $('#zipcode').rules('add',  {
-                     required : true,
-                     messages : { required : 'Please enter zipcode' }
-                 });
-            
-        }
-    });
-}
-
-//edit-userprofile
-$("#edit-user-admin").validate({
-    rules: {
-        name: {
-            required: true,
-            lettersonly:true
-        },
-        email: {
-            required: true,
-            email: true
-        },
-        company: {
-            required: true
-        }
-    },
-    messages: {
-        name: {
-            required: "<p style='color: red;'>Please enter name</p>"
-        },
-        email: {
-            required: "<p style='color: red;'>Please enter valid email</p>",
-            email: "<p style='color: red;'>Please enter valid email</p>"
-        },
-        company: {
-            required: "<p style='color: red;'>Please enter company name</p>"
-        }
-    }
-});
-
-function check3() {
-$( "select option:selected").each(function(){
-    if($(this).attr("value")=="1" || $(this).attr("value")=="2" )  {
-        $(".phone").hide();
-        $(".user-role-id").hide();
-        $(".address").hide();
-        $(".address2").hide();
-        $(".city").hide();
-        $(".state").hide();
-        $(".country").hide();
-        $(".zipcode").hide();
-        $('#phone').rules('remove',  'required');
-        $('#user_role_id').rules('remove',  'required');
-        $('#address').rules('remove',  'required');
-        $('#city').rules('remove',  'required');
-        $('#state').rules('remove',  'required');
-        $('#country').rules('remove',  'required');
-        $('#zipcode').rules('remove',  'required');
-    } else {
-        var user_role = $('#get_user_role').val();
-        $(".user-role-id").hide();
-        $(".phone").show();
-        $(".address").show();
-        $(".address2").show();
-        $(".city").show();
-        $(".state").show();
-        $(".country").show();
-        $(".zipcode").show();
-        if(user_role == 1 || user_role == 2){
-        } else {
-            $('#phone').rules('add',  {
-                     required : true,
-                     messages : { required : 'Please enter phone number' }
-                 });
-                 $('#address').rules('add',  {
-                     required : true,
-                     messages : { required : 'Please enter address' }
-                 });
-                 $('#city').rules('add',  {
-                     required : true,
-                     messages : { required : 'Please enter city' }
-                 });
-                 $('#state').rules('add',  {
-                     required : true,
-                     messages : { required : 'Please enter state' }
-                 });
-                 $('#country').rules('add',  {
-                     required : true,
-                     messages : { required : 'Please enter country' }
-                 });
-                 $('#zipcode').rules('add',  {
-                     required : true,
-                     messages : { required : 'Please enter zipcode' }
-                 });        }
-    }
-});
-}
-
-//user-index
-$("#commissionFrom").validate({
-        rules: {
-            commission: {
-                required: true,
-                number: true,
-                range: [0, 100],
-            }
-        },
-        messages: {
-            commission: {
-                required: "<p style='color: red;'>Please enter commission</p>",
-                number: "<p style='color: red;'>Please enter only number</p>",
-                range: "<p style='color: red;'>Please enter 0 to 100 range</p>"
-            }
-        }
-});
 //create-vendor-contact
 $("#create-vendor-contact").validate({
     rules: {

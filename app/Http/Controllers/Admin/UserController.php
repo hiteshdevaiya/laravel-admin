@@ -65,6 +65,31 @@ class UserController extends Controller
         echo json_encode($data); exit;
     }
 
+    // profile form
+    public function profile(Request $request)
+    {
+        $edit = [];
+        if(isset($request->id) && $request->id != ""){
+            $id = base64UrlDecode($request->id);
+            if((int)$id == true){
+                $edit = $this->parentModel::find($id);
+            }else{
+                $message = get_messages('Record not Exists',0);
+                Session::flash('message', $message);
+                return redirect()->route($this->parentRoute);
+            }
+        }
+
+        if((!empty($edit) && isset($id) ) && ($edit->id == $id)){
+            return view($this->parentView.'.profile',['edit' => $edit]);
+        }else{
+            $message = get_messages('You are not authorize',0);
+            Session::flash('message', $message);
+            return redirect()->route('admin.dashboard');
+        }
+
+    }
+
     // create and edit form
     public function form(Request $request)
     {
@@ -83,6 +108,8 @@ class UserController extends Controller
         if(isset($request->type) && $request->type == "permission"){
             $data = Modules::get();
             return view($this->parentView.'.permission',['edit' => $edit,'data'=>$data]);
+        }elseif(isset($request->type) && $request->type == "profile"){
+            return redirect()->route('admin.profile')->with(['edit'=>$edit]);
         }else{
             $role = Roles::where('status',1)->get();
             return view($this->parentView.'.form',['edit' => $edit,'role'=>$role]);
@@ -110,14 +137,20 @@ class UserController extends Controller
             //echo '<pre>'; print_r($request->all()); die;
 
             $request->validate([
-                'role_id' => 'required'
+                'name' => 'required',
+                'role_id' => 'required',
+                'email' => 'required',
             ]);
 
+            
             $store = new $this->parentModel;
-            $message = get_messages('Module created successfully!',1);
+            $message = get_messages('User created successfully!',1);
             if(isset($request->id) && $request->id != "" && $request->id != 0){
+                $request->validate([
+                    'email' => ['required', 'string', 'email', 'max:255',\Illuminate\Validation\Rule::unique('users')->ignore($request->id)],
+                ]);
                 $store = $this->parentModel::find($request->id);
-                $message = get_messages('Module updated successfully!',1);
+                $message = get_messages('User updated successfully!',1);
             }
             $store->name = $request->name;
             $store->email = $request->email;

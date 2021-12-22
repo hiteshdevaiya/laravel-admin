@@ -17,7 +17,7 @@
     <body data-sidebar="dark">
         <!-- loader start -->
         <div id="preloader">
-            <div id="status">
+            <div id="preloader-inner">
                 <div class="spinner-chase">
                     <div class="chase-dot"></div>
                     <div class="chase-dot"></div>
@@ -50,10 +50,6 @@
             <!-- end main content-->
         </div>
         <!-- END layout-wrapper -->
-
-    <!-- Right Sidebar -->
-    @include('admin.layouts.right-sidebar')
-    <!-- /Right-bar -->
 
     <!-- Right bar overlay-->
     <div class="rightbar-overlay"></div>

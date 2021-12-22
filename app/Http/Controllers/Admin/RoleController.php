@@ -47,7 +47,9 @@ class RoleController extends Controller
             {
                 $action = '' ;
                 $nestedData['module'] = '<a href="'.route($this->parentRoute.'.form',['id'=>base64UrlEncode($one->id),'type'=>"permission"]).'">'.$one->role.'</a>';
+                //$nestedData['status'] =  '<div class="square-switch mt-2"><input type="checkbox" id="square-access-'.$one->id. '" value="'.$one->status.'"  switch="bool" '.$status.'  onclick="updateActiveStatus()"/><label for="square-access-'.$one->id.'" data-on-label="YES" data-off-label="NO"></label></div>';
                 $action .= '<a href="'.route($this->parentRoute.'.form',['id'=>base64UrlEncode($one->id)]).'" class=" btn btn-info btn-sm btn-rounded waves-effect waves-light" ><i class="fas fa-edit" title="edit"></i></a>';
+                $action .=  '<button id="button" type="submit" class="btn btn-danger btn-sm btn-rounded waves-effect waves-light sa-remove" data-id='.$one->id.'><i class="fas fa-trash-alt"></i></button>';
                 $nestedData['action'] =  $action;
                 $data[] = $nestedData;               
             }    
@@ -102,10 +104,10 @@ class RoleController extends Controller
             ]);
 
             $store = new $this->parentModel;
-            $message = get_messages('Module created successfully!',1);
+            $message = get_messages('Role created successfully!',1);
             if(isset($request->id) && $request->id != "" && $request->id != 0){
                 $store = $this->parentModel::find($request->id);
-                $message = get_messages('Module updated successfully!',1);
+                $message = get_messages('Role updated successfully!',1);
             }
             $store->role = $request->role;
             $store->save();
@@ -120,7 +122,7 @@ class RoleController extends Controller
     {
         $moduleDetails = $this->parentModel::findOrFail($id);
         $moduleDetails->delete();
-        $message = get_messages('Module deleted successfully!',1);
+        $message = get_messages('Role deleted successfully!',1);
         Session::flash('message', $message);
         return redirect()->route($this->parentRoute);
     }

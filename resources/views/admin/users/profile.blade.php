@@ -1,7 +1,7 @@
 @extends('admin.layouts.master')
 
 @php
-$module = "User";
+$module = "Profile";
 $titleModule = "Add ".$module;
 
 $id = 0;
@@ -27,68 +27,58 @@ if(isset($edit) && !empty($edit)){
         @endif
         <div class="card">
             <div class="card-body">
-                <form name="form-user" id="form-user" action="{{ route('users.store',['id'=>$id]) }}" method="POST" onreset="myFunction()">
+                <form name="form-user" id="form-user" action="{{ route('users.store') }}" method="POST" onreset="myFunction()">
                     @csrf
                    
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">User Role</label>
                         <div class="col-md-4">
-                            <select class="custom-select js-delivery @error('role_id') is-invalid @enderror" name="role_id" id="role_id">
-                                <option value="">Select user role</option>
-                                @forelse($role as $onerole)
-                                    <option value="{{ $onerole->id }}" @if((isset($edit) && !empty($edit)) && ($edit->role_id == $onerole->id)) selected @endif)>{{ $onerole->role }}</option>
-                                @empty
-                                    <option value="">No Role Found</option>
-                                @endforelse
-                            </select>
-                            @if ($errors->has('role_id'))
-                                <span class="invalid-feedback" role="alert"><strong>{{ $errors->first('role_id') }}</strong></span>
-                            @endif
+                            <input class="form-control" type="text" value="" readonly="">
                         </div>
-                        
-                        <!-- <label for="example-text-input" class="col-md-2 col-form-label address">Address</label>
+
+                        <label for="example-text-input" class="col-md-2 col-form-label address">Address</label>
                         <div class="col-md-4 address">
                             <input class="form-control @error('address') is-invalid @enderror" type="text" value="{{ old('address') }}" name="address" id="address">
                             @if ($errors->has('address'))
                                 <span class="invalid-feedback" role="alert"><strong class="errors">{{ $errors->first('address') }}</strong></span>
                             @endif
-                        </div> -->
+                        </div>
                     </div>
 
                     <div class="form-group row">
                         <label for="example-text-input" class="col-md-2 col-form-label">Name</label>
                         <div class="col-md-4">
-                            <input class="form-control @error('name') is-invalid @enderror" type="text" value="{{ (isset($edit) && !empty($edit)) ? $edit->name : '' }}" name="name" id="name">
+                            <input class="form-control @error('name') is-invalid @enderror" type="text" value="{{ old('name') }}" name="name" id="name">
                             @if ($errors->has('name'))
                                 <span class="invalid-feedback" role="alert"><strong>{{ $errors->first('name') }}</strong></span>
                             @endif
                         </div>
-                        <!-- <label for="example-text-input" class="col-md-2 col-form-label address2">Address2</label>
+                        <label for="example-text-input" class="col-md-2 col-form-label address2">Address2</label>
                         <div class="col-md-4 address2">
                             <input class="form-control @error('address2') is-invalid @enderror" type="text" value="{{ old('address2') }}" name="address2" id="address2">
                             @if ($errors->has('address2'))
                                 <span class="invalid-feedback" role="alert"><strong>{{ $errors->first('address2') }}</strong></span>
                             @endif
-                        </div> -->
+                        </div>
                     </div>
 
                     <div class="form-group row">
                         <label for="example-email-input" class="col-md-2 col-form-label">Email</label>
                         <div class="col-md-4">
-                            <input class="form-control @error('email') is-invalid @enderror" type="email" value="{{ (isset($edit) && !empty($edit)) ? $edit->email : '' }}" name="email" id="email">
+                            <input class="form-control @error('email') is-invalid @enderror" type="email" value="{{ old('email') }}" name="email" id="email">
                             @if ($errors->has('email'))
                                 <span class="invalid-feedback" role="alert"><strong>{{ $errors->first('email') }}</strong></span>
                             @endif
                         </div>
-                        <!-- <label for="example-text-input" class="col-md-2 col-form-label city">City</label>
+                        <label for="example-text-input" class="col-md-2 col-form-label city">City</label>
                         <div class="col-md-4 city">
                             <input class="form-control @error('city') is-invalid @enderror " type="text" value="{{ old('city') }}" name="city" id="city">
                             @if ($errors->has('city'))
                                 <span class="invalid-feedback" role="alert"><strong class="errors">{{ $errors->first('city') }}</strong></span>
                             @endif
-                        </div> -->
+                        </div>
                     </div>           
-                    <!-- <div class="form-group row">
+                    <div class="form-group row">
                         <label for="example-tel-input"  class="col-md-2 col-form-label phone">Telephone</label>
                         <div class="col-md-4 phone">
                             <input  class="form-control @error('phone') is-invalid @enderror allow_integer" type="tel" value="{{ old('phone') }}" name="phone" id="phone" maxlength="15"> 
@@ -105,7 +95,7 @@ if(isset($edit) && !empty($edit)){
                                 <span class="invalid-feedback" role="alert"><strong class="errors">{{ $errors->first('state') }}</strong></span>
                             @endif
                         </div>
-                    </div> -->
+                    </div>
 
                     <div class="form-group row">
                         <label for="example-password-input" class="col-md-2 col-form-label">Password</label>
@@ -115,16 +105,16 @@ if(isset($edit) && !empty($edit)){
                                 <span class="invalid-feedback" role="alert"><strong>{{ $errors->first('password') }}</strong></span>
                             @endif
                         </div>
-                        <!-- <label for="example-text-input" class="col-md-2 col-form-label country">Country</label>
+                        <label for="example-text-input" class="col-md-2 col-form-label country">Country</label>
                         <div class="col-md-4 country">
                             <input class="form-control @error('country') is-invalid @enderror" type="text" value="{{ old('country') }}" name="country" id="country">
                             @if ($errors->has('country'))
                                 <span class="invalid-feedback" role="alert"><strong class="errors">{{ $errors->first('country') }}</strong></span>
                             @endif
-                        </div> -->
+                        </div>
                     </div>
 
-                    <!-- <div class="form-group row">
+                    <div class="form-group row">
                         <label for="example-text-input" class="col-md-2 col-form-label">Company Name</label>
                         <div class="col-md-4">
                             <input class="form-control @error('company') is-invalid @enderror" type="text" value="{{ old('company') }}" name="company" id="company">
@@ -139,7 +129,7 @@ if(isset($edit) && !empty($edit)){
                                 <span class="invalid-feedback" role="alert"><strong class="errors">{{ $errors->first('zipcode') }}</strong></span>
                             @endif
                         </div>
-                    </div> -->
+                    </div>
 
                     <div class="button-items mt-3">
                     <input class="btn btn-info" type="submit" value="Submit" id="submit">
@@ -156,11 +146,7 @@ if(isset($edit) && !empty($edit)){
 
 @endsection
 
-@section('script')
-    
+@section('script') 
 <script>
-
-
 </script>
-
 @endsection

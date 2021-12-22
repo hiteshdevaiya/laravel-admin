@@ -5,9 +5,10 @@
             <!-- Left Menu Start -->
             <ul class="metismenu list-unstyled" id="side-menu">
                 <li class="menu-title">Menu</li>
-                <li>
-                    <a href="{{ url('/index') }}" class="waves-effect">
-                        <i class="bx bx-home-circle"></i>
+                <li {{ Request::segment(1) == 'dashboard' ? 'class=mm-active': '' }}>
+                    <a href="{{ route('admin.dashboard') }}" class="waves-effect {{ Request::segment(1) == 'dashboard' ? 'active': '' }}"
+                        {{Request::segment(1) == 'dashboard' ? 'aria-expanded=false' : ''}}>
+                        <i class="bx bxs-user-detail"></i>
                         <span>Dashboard</span>
                     </a>
                 </li>
@@ -31,6 +32,14 @@
                         {{Request::segment(1) == 'users' ? 'aria-expanded=false' : ''}}>
                         <i class="bx bxs-user-detail"></i>
                         <span>Users</span>
+                    </a>
+                </li>
+
+                <li {{ Request::segment(1) == 'settings' ? 'class=mm-active': '' }}>
+                    <a href="{{ route('settings') }}" class="waves-effect {{ Request::segment(1) == 'settings' ? 'active': '' }}"
+                        {{Request::segment(1) == 'settings' ? 'aria-expanded=false' : ''}}>
+                        <i class="bx bxs-user-detail"></i>
+                        <span>Settings</span>
                     </a>
                 </li>
             </ul>

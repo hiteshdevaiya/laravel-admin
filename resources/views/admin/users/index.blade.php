@@ -11,7 +11,7 @@
 <!-- view start -->
 <div class="row">
     <div class="col-lg-6">
-        <a class="btn btn-info waves-effect waves-light mb-3"  href="{{ route('users.form') }}" role="button"> Create New Module</a>
+        <a class="btn btn-info waves-effect waves-light mb-3"  href="{{ route('users.form') }}" role="button"><i class="fas fa-plus"></i> Add New</a>
     </div>
     <div class="col-lg-6">
     </div>
@@ -32,7 +32,7 @@
                             <th>Name</th>
                             <th>Email</th>
                             <th>Role</th>
-                            <th>IsActive</th>
+                            <th>Status</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -137,14 +137,12 @@ $(document).ready(function () {
                         targets: 3,
                         render: function (data, type, row) {
                             return row['role'];
-
                         }
                     },
                     {
                         targets: 4,
                         render: function (data, type, row) {
                             return row['status'];
-
                         }
                     },
                     {

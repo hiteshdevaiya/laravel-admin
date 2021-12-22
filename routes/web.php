@@ -29,11 +29,13 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::group(['prefix' => 'admin','middleware' => 'auth'], function () {
 	// Route::group(['namespace' => 'Admin'], function () {
         Route::get('dashboard', [App\Http\Controllers\Admin\AdminController::class, 'dashboard'])->name('admin.dashboard');
+        Route::get('profile', [App\Http\Controllers\Admin\UserController::class, 'profile'])->name('admin.profile');
        
         $paths = array(
             'modules'         => App\Http\Controllers\Admin\ModuleController::class,
             'roles'           => App\Http\Controllers\Admin\RoleController::class,
             'users'           => App\Http\Controllers\Admin\UserController::class,
+            'settings'           => App\Http\Controllers\Admin\SettingController::class,
         );
         
         foreach($paths as $slug => $controller)

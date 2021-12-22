@@ -40,23 +40,37 @@ if(isset($edit) && !empty($edit)){
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
-                        <form method="POST" name="roles" id="roles" action="{{ route('roles.store',['id'=>$id]) }}" onreset="myFunction()">
+                        <form method="POST" name="roles-form" id="roles-form" action="{{ route('roles.store',['id'=>$id]) }}" onreset="myFunction()">
                             @csrf
                             <div class="form-group row">
-                                <label for="example-text-input" class="col-md-2 col-form-label">Module</label>
+                                <label for="example-text-input" class="col-md-2 col-form-label">Role</label>
                                 <div class="col-md-4">
                                     <input class="form-control" type="text" value="{{ (isset($edit) && !empty($edit)) ? $edit->role : '' }}" name="role" id="role">
                                     @if ($errors->has('role'))
                                         <span class="help-block alert-danger"><strong>{{ $errors->first('role') }}</strong></span>
                                     @endif
                                 </div>
+
+                                <label class="col-md-2 col-form-label">Status</label>
+                                <div class="col-md-4">
+                                    <select class="custom-select js-delivery @error('status') is-invalid @enderror" name="status" id="status">
+                                    @php $selected = (isset($edit) && !empty($edit)) ? $edit->status : '';  @endphp    
+                                    {!! getStatusDropdown(1,$selected) !!}
+                                        
+                                    </select>
+                                    @if ($errors->has('status'))
+                                        <span class="invalid-feedback" role="alert"><strong>{{ $errors->first('status') }}</strong></span>
+                                    @endif
+                                </div>
                             </div>
 
+                           
+
                             <div class="button-items mt-3">
-                            <input class="btn btn-info" type="submit" value="Submit">
-                            <a class="btn btn-danger waves-effect waves-light" href="{{ route('roles') }}" role="button">Cancel</a>
-                            <input class="btn btn-warning" type="reset" value="Reset">
-                        </div>
+                                <input class="btn btn-info" type="submit" value="Submit">
+                                <a class="btn btn-danger waves-effect waves-light" href="{{ route('roles') }}" role="button">Cancel</a>
+                                <input class="btn btn-warning" type="reset" value="Reset">
+                            </div>
 
                         </form>
                     </div>

@@ -2,22 +2,26 @@
 
 use App\Models\Settings;
 use App\Models\Users;
-use App\Models\RoleAccessModules;
+use App\Models\Modules;
+use App\Models\Roles;
 use App\Models\UserAccessModules;
-use App\Models\User_access_modules;
-use App\Models\Application_modules;
-use App\Models\Role_access_modules;
+use App\Models\RoleAccessModules;
+use App\Models\Status;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Crypt;
 use Carbon\Carbon;
 use Stringy\Stringy;
 
+
+// encode id
 if(!function_exists('base64UrlEncode'))
 {
     function base64UrlEncode($input){
         return strtr(base64_encode(Crypt::encrypt($input)), '+/=', '._-'); // "+", "/" and "=" are not url safe
     }
 }
+
+// decode id 
 if(!function_exists('base64UrlDecode'))
 {
     function base64UrlDecode($input){
@@ -29,6 +33,7 @@ if(!function_exists('base64UrlDecode'))
     }
 }
 
+// bradcumb
 if(!function_exists('getBreadcumb'))
 {
     function getBreadcumb($module,$titleModule,$parentRoute){
@@ -49,6 +54,26 @@ if(!function_exists('getBreadcumb'))
         return $html;
     }
 }
+
+//get dropdown with selected task
+if(!function_exists('getStatusDropdown'))
+{
+    function getStatusDropdown($taskId,$selected=""){
+        $html = '<option value="">Select status</option>';
+        $status = Status::get();
+        if(count($status)>0){
+            foreach($status as $one){
+                $html .= '<option value="'.$one->id.'"';
+                if($selected != "" && $selected == $one->id){
+                    $html .= 'selected';
+                }
+                $html .= '>'.$one->name.'</option>';
+            }
+        }
+        return $html;
+    }
+}
+
 
 if(!function_exists('checkRolePermission'))
 {

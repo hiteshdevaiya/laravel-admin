@@ -1,7 +1,7 @@
 @extends('admin.layouts.master')
 
 @section('title','Role List')
-
+ 
 @section('content')
 <!-- start page title -->
 <div class="row">
@@ -23,7 +23,7 @@
 
 <div class="row">
     <div class="col-lg-6">
-        <a class="btn btn-info waves-effect waves-light mb-3"  href="{{ route('roles.form') }}" role="button"> Create New Module</a>
+        <a class="btn btn-info waves-effect waves-light mb-3"  href="{{ route('roles.form') }}" role="button"><i class="fas fa-plus"></i> Add New</a>
     </div>
     <div class="col-lg-6">
     </div>
