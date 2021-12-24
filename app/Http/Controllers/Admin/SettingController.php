@@ -46,34 +46,57 @@ class SettingController extends Controller
         }
 
         //general tab
-        $setting->system_name = $request->system_name;
-        $setting->system_mail = $request->system_mail;
-        $setting->system_phone = $request->system_phone;
-        $setting->date_format = $request->date_format;
-        $setting->address_1 = $request->address_1;
-        $setting->address_2 = $request->address_2;
-        if ($request->hasFile('large_logo')) {
-            $large_logo = $request->large_logo;
-            $temporaryName = time() . $large_logo->getClientOriginalName();
-            $large_logo->move(public_path('/upload/settings/'), $temporaryName);
-            $setting->large_logo = 'upload/large_logo/' . $temporaryName;
-        }
-        if ($request->hasFile('small_logo')) {
-            $small_logo = $request->small_logo;
-            $temporaryName = time() . $small_logo->getClientOriginalName();
-            $small_logo->move(public_path('/upload/settings/'), $temporaryName);
-            $setting->small_logo = 'upload/small_logo/' . $temporaryName;
+        if(isset($request->type) && $request->type == "general")
+        {
+            $get = getGeneralSetting();
+
+            $update = $this->parentModel::where('name', 'GENERAL')->first();
+            if ($request->hasFile('large_logo')) {
+                $large_logo = $request->large_logo;
+                $temporaryName = time() . $large_logo->getClientOriginalName();
+                $large_logo->move(public_path('/upload/settings/'), $temporaryName);
+                $large_logo_name = 'upload/settings/' . $temporaryName;
+            }else{ 
+                $large_logo_name = isset($get['large_logo']) ? $get['large_logo'] : '';
+            }
+            if ($request->hasFile('small_logo')) {
+                $small_logo = $request->small_logo;
+                $temporaryName = time() . $small_logo->getClientOriginalName();
+                $small_logo->move(public_path('/upload/settings/'), $temporaryName);
+                $small_logo_name = 'upload/settings/' . $temporaryName;
+            }else{
+                $small_logo_name = isset($get['small_logo']) ? $get['small_logo'] : '';
+            }
+            $data = array(
+                'system_name' => $request->system_name,
+                'system_mail' => $request->system_mail,
+                'system_phone' => $request->system_phone,
+                'date_format' => $request->date_format,
+                'address_1' => $request->address_1,
+                'address_2' => $request->address_2,
+                'large_logo' => isset($large_logo_name) ? $large_logo_name : '',
+                'small_logo' => isset($small_logo_name) ? $small_logo_name : ''
+            );
+            $update->content = json_encode($data);
+            $update->save();
         }
 
         //smtp tab
-        $setting->mail_driver = $request->mail_driver;
-        $setting->mail_host = $request->mail_host;
-        $setting->mail_port = $request->mail_port;
-        $setting->mail_username = $request->mail_username;
-        $setting->mail_password = $request->mail_password;
-        $setting->mail_encryption = $request->mail_encryption;
+        if(isset($request->type) && $request->type == "smtp")
+        {
+            $update = $this->parentModel::where('name', 'SMTP')->first();
+            $data = array(
+                'mail_driver' => $request->mail_driver,
+                'mail_host' => $request->mail_host,
+                'mail_port' => $request->mail_port,
+                'mail_username' => $request->mail_username,
+                'mail_password' => $request->mail_password,
+                'mail_encryption' => $request->mail_encryption
+            );
+            $update->content = json_encode($data);
+            $update->save();
+        }
 
-        $setting->save();
         $message = get_messages('Settings updated successfully!',1);
         Session::flash('message', $message);
         return redirect()->back();

@@ -42,13 +42,41 @@ $("#modules-form").validate({
     }
 });
 
+$('#myForm').validate({
+    rules: {
+        email2: {
+            required: function(element) {
+                if ($('[name="myradiogroup"]:checked').length) {
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+        },
+        myradiogroup: {
+            required: function(element) {
+                if ($('#email2').val()) {
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+        }
+    }
+});
+
+
 //create user
 $("#form-user").validate({
     rules: {
         role_id: {
             required: true,
         },
-        name: {
+        first_name: {
+            required: true,
+            lettersonly:true
+        },
+        last_name: {
             required: true,
             lettersonly:true
         },
@@ -57,21 +85,42 @@ $("#form-user").validate({
             email: true,
         },
         password: {
+            required: function(element) {
+                if ($('#userId').val() != "0") {
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+        },
+        confirm_password: {
+            required: function(element) {
+                if ($('#userId').val() != "0") {
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+        },
+        name: {
             required: true,
         },
-        // company: {
-        //     required: true,
-        // },
-        // phone: {
-        //     required: true,
-        // }
+        phone: {
+            required: true,
+        },
+        status: {
+            required: true,
+        }
     },
     messages: {
         role_id: {
             required: "<p style='color: red;'>Please select role</p>"
         },
-        name: {
-            required: "<p style='color: red;'>Please enter name</p>"
+        first_name: {
+            required: "<p style='color: red;'>Please enter first name</p>"
+        },
+        last_name: {
+            required: "<p style='color: red;'>Please enter last name</p>"
         },
         email: {
             required: "<p style='color: red;'>Please enter valid email</p>",
@@ -80,12 +129,18 @@ $("#form-user").validate({
         password: {
             required: "<p style='color: red;'>Please enter password</p>"
         },
-        // company: {
-        //     required: "<p style='color: red;'>Please enter company name</p>"
-        // },
-        // phone: {
-        //     required: "<p style='color: red;'>Please enter mobile number</p>",
-        // }
+        confirm_password: {
+            required: "<p style='color: red;'>Please enter confirm password</p>",
+        },
+        name: {
+            required: "<p style='color: red;'>Please enter username name</p>"
+        },
+        phone: {
+            required: "<p style='color: red;'>Please enter mobile number</p>",
+        },
+        status: {
+            required: "<p style='color: red;'>Please select status</p>",
+        }
     }
 });
 

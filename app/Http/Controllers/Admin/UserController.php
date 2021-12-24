@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Roles;
 use App\Models\Modules;
@@ -134,12 +136,16 @@ class UserController extends Controller
                 $new->save();
             }
         }else{   
-            //echo '<pre>'; print_r($request->all()); die;
+            // echo '<pre>'; print_r($request->all()); die;
 
             $request->validate([
                 'name' => 'required',
                 'role_id' => 'required',
                 'email' => 'required',
+                'first_name' => 'required',
+                'last_name' => 'required',
+                'phone' => 'required',
+                'status' => 'required',
             ]);
 
             
@@ -152,24 +158,48 @@ class UserController extends Controller
                 $store = $this->parentModel::find($request->id);
                 $message = get_messages('User updated successfully!',1);
             }
-            $store->name = $request->name;
-            $store->email = $request->email;
-            $store->password = $request->password;
+            if(isset($request->password) && $request->password != ""){
+                $store->password = Hash::make($request->password);
+            }
+            if(isset($request->email_verified) && $request->email_verified == "1"){
+                $store->email_verified_at = Carbon::now();
+            }
             $store->role_id = $request->role_id;
+            $store->name = $request->name;
+            $store->first_name = $request->first_name;
+            $store->last_name = $request->last_name;
+            $store->email = $request->email;
+            $store->phone = $request->phone;
+            $store->status = $request->status;
+
+            if((isset($request->image)) && (!empty($request->image))){
+                $temporaryName = time() . $request->image->getClientOriginalName();
+                $request->image->move(public_path('/upload/user/'), $temporaryName);
+                $namefinal = 'upload/user/' . $temporaryName;
+                $store->image = $namefinal;
+            }
+
             $store->save();
 
-            $roledata = RoleAccessModules::where('role_id',$request->role_id)->get();
-            $makedata = [];
+            if(isset($store->role_id) && $request->role_id != $store->role_id){
+                $roledata = RoleAccessModules::where('role_id',$request->role_id)->get();
+                $makedata = [];
 
-            if(count($roledata)>0){
-                foreach($roledata as $onerole){
-                    array_push($makedata, array ("user_id" => $store->id, "module_id" => $onerole->module_id, "access" => $onerole->access, "create" => $onerole->create, "edit" => $onerole->edit, "delete" => $onerole->delete, "view" => $onerole->view));   
+                if(count($roledata)>0){
+                    foreach($roledata as $onerole){
+                        array_push($makedata, array ("user_id" => $store->id, "module_id" => $onerole->module_id, "access" => $onerole->access, "create" => $onerole->create, "edit" => $onerole->edit, "delete" => $onerole->delete, "view" => $onerole->view));   
+                    }
                 }
+                $new = UserAccessModules::insert($makedata);
             }
-            $new = UserAccessModules::insert($makedata);
 
             Session::flash('message', $message);
-            return redirect()->route($this->parentRoute);
+
+            if(isset($request->type) && $request->type == "profile"){
+                return redirect()->back();
+            }else{
+                return redirect()->route($this->parentRoute);
+            }
         }
     }
 

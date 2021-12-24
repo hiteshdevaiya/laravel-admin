@@ -13,12 +13,12 @@
                     </span>
                 </a>
 
-                <a href="{{ url('/index') }}" class="logo logo-light">
+                <a href="{{ url('/') }}" class="logo logo-light">
                     <span class="logo-sm">
-                        <img src="{{ URL::to('/assets/images/logo-light.svg') }}" alt="" height="22">
+                        <img src="{!! getTinyLogo() !!}" alt="" height="22">
                     </span>
                     <span class="logo-lg">
-                        <img src="{{ URL::to('/assets/images/logo-light.png') }}" alt="" height="19">
+                        <img src="{!! getFullLogo() !!}" alt="" height="19">
                     </span>
                 </a>
             </div>
@@ -44,11 +44,9 @@
                     <form class="p-3">
                         <div class="form-group m-0">
                             <div class="input-group">
-                                <input type="text" class="form-control" placeholder="Search ..."
-                                    aria-label="Recipient's username">
+                                <input type="text" class="form-control" placeholder="Search ..." aria-label="Recipient's username">
                                 <div class="input-group-append">
-                                    <button class="btn btn-primary" type="submit"><i
-                                            class="mdi mdi-magnify"></i></button>
+                                    <button class="btn btn-primary" type="submit"><i class="mdi mdi-magnify"></i></button>
                                 </div>
                             </div>
                         </div>
@@ -69,7 +67,7 @@
                 <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <img class="rounded-circle header-profile-user"
-                        src="{{ URL::to('/assets/images/users/avatar-1.jpg') }}" alt="Header Avatar">
+                        src="{!! getUserImage() !!}" alt="Avatar">
                     <span class="d-none d-xl-inline-block ml-1">{{ @Auth::user()->name }}</span>
                     <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
                 </button>

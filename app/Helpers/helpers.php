@@ -2,6 +2,7 @@
 
 use App\Models\Settings;
 use App\Models\Users;
+use App\Models\User; //correct
 use App\Models\Modules;
 use App\Models\Roles;
 use App\Models\UserAccessModules;
@@ -111,6 +112,61 @@ if(!function_exists('checkCurrentUrl'))
         $return = Request::is($url) ? 'mm-active' : '';
         return $return;
     }
+}
+
+
+function getMailSetting(){
+    $get = Settings::where('name', 'SMTP')->first();
+    $data = [];
+    if(!empty($get)){
+        $data1 = json_decode($get->content, true);
+        $data['mail_driver'] = $data1['mail_driver'];
+        $data['mail_host'] = $data1['mail_host'];
+        $data['mail_port'] = $data1['mail_port'];
+        $data['mail_username'] = $data1['mail_username'];
+        $data['mail_password'] = $data1['mail_password'];
+        $data['mail_encryption'] = $data1['mail_encryption'];
+    }
+    return $data;
+}
+
+
+
+function getGeneralSetting(){
+    $get = Settings::where('name', 'GENERAL')->first();
+    $data = [];
+    if(!empty($get)){
+        $data1 = json_decode($get->content, true);
+        $data['system_name'] = $data1['system_name'];
+        $data['system_mail'] = $data1['system_mail'];
+        $data['system_phone'] = $data1['system_phone'];
+        $data['date_format'] = $data1['date_format'];
+        $data['address_1'] = $data1['address_1'];
+        $data['address_2'] = $data1['address_2'];
+        $data['large_logo'] = $data1['large_logo'];
+        $data['small_logo'] = $data1['small_logo'];
+    }
+    return $data;
+}
+
+function getFullLogo(){
+    $get = getGeneralSetting();
+    $data = isset($get['large_logo']) ? publicUrl($get['large_logo']) : '';
+    return $data;
+}
+
+
+function getTinyLogo(){
+    $get = getGeneralSetting();
+    $data = isset($get['small_logo']) ? publicUrl($get['small_logo']) : '';
+    return $data;
+}
+
+function getUserImage($id=""){
+    $id1 = $id != "" ? $id : Auth()->user()->id;
+    $get = User::where('id',$id1)->first();
+    $image = (!empty($get) && $get->image != "") ? publicUrl($get->image) : publicUrl('upload/avatar.jpg');
+    return $image;
 }
 
 
