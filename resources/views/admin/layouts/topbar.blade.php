@@ -4,7 +4,7 @@
 
             <!-- LOGO -->
             <div class="navbar-brand-box">
-                <a href="{{ url('/index') }}" class="logo logo-dark">
+                <a href="{{ url('/') }}" class="logo logo-dark">
                     <span class="logo-sm">
                         <img src="{{ URL::to('/assets/images/logo.svg') }}" alt="" height="22">
                     </span>
@@ -15,10 +15,10 @@
 
                 <a href="{{ url('/') }}" class="logo logo-light">
                     <span class="logo-sm">
-                        <img src="{!! getTinyLogo() !!}" alt="" height="22">
+                        <img src="{!! getTinyLogo() !!}" alt="" height="22" alt="" alt="S">
                     </span>
                     <span class="logo-lg">
-                        <img src="{!! getFullLogo() !!}" alt="" height="19">
+                        <img src="{!! getFullLogo() !!}" alt="" height="19" alt="System">
                     </span>
                 </a>
             </div>

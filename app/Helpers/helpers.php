@@ -151,14 +151,14 @@ function getGeneralSetting(){
 
 function getFullLogo(){
     $get = getGeneralSetting();
-    $data = isset($get['large_logo']) ? publicUrl($get['large_logo']) : '';
+    $data = (isset($get['large_logo']) && $get['large_logo'] != "") ? publicUrl($get['large_logo']) : publicUrl('upload/system.png');
     return $data;
 }
 
 
 function getTinyLogo(){
     $get = getGeneralSetting();
-    $data = isset($get['small_logo']) ? publicUrl($get['small_logo']) : '';
+    $data = (isset($get['small_logo']) && $get['small_logo'] != "") ? publicUrl($get['small_logo']) : publicUrl('upload/small.svg');
     return $data;
 }
 
@@ -167,6 +167,14 @@ function getUserImage($id=""){
     $get = User::where('id',$id1)->first();
     $image = (!empty($get) && $get->image != "") ? publicUrl($get->image) : publicUrl('upload/avatar.jpg');
     return $image;
+}
+
+function getDashboard(){
+    $html = [];
+    $html['totalRoles'] = 0;
+    $html['totalModules'] = 0;
+    $html['totalUsers'] = 0;
+    return $html;
 }
 
 

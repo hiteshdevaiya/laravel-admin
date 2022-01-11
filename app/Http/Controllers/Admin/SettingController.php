@@ -40,17 +40,16 @@ class SettingController extends Controller
     // crud operation
     public function store(Request $request)
     {
-        $setting = $this->parentModel::first();
-        if (empty($setting)) {
-            $setting = new $this->parentModel;
-        }
-
         //general tab
         if(isset($request->type) && $request->type == "general")
         {
             $get = getGeneralSetting();
 
             $update = $this->parentModel::where('name', 'GENERAL')->first();
+            if(empty($update)){
+                $update = new $this->parentModel;
+                $update->name = 'GENERAL';
+            }
             if ($request->hasFile('large_logo')) {
                 $large_logo = $request->large_logo;
                 $temporaryName = time() . $large_logo->getClientOriginalName();
@@ -85,6 +84,10 @@ class SettingController extends Controller
         if(isset($request->type) && $request->type == "smtp")
         {
             $update = $this->parentModel::where('name', 'SMTP')->first();
+            if(empty($update)){
+                $update = new $this->parentModel;
+                $update->name = 'SMTP';
+            }
             $data = array(
                 'mail_driver' => $request->mail_driver,
                 'mail_host' => $request->mail_host,

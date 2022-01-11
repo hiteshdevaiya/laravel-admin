@@ -7,6 +7,10 @@
 {!! session('message') !!}
 @endif
 
+@php
+    $dashboard = getDashboard();
+@endphp
+
 <!-- start page title -->
 <div class="row">
     <div class="col-12">
@@ -32,11 +36,11 @@
                     <div class="col-7">
                         <div class="text-primary p-3">
                             <h5 class="text-primary">Welcome Back !</h5>
-                            <p>Stockful Dashboard</p>
+                            <p>{{ config('app.name') }} Dashboard</p>
                         </div>
                     </div>
                     <div class="col-5 align-self-end">
-                        <img src="assets/images/profile-img.png" alt="" class="img-fluid">
+                        <img src="{{ url('/assets/images/profile-img.png') }}" alt="" class="img-fluid">
                     </div>
                 </div>
             </div>
@@ -46,16 +50,14 @@
                         <div class="avatar-md profile-user-wid mb-4">
                             <img src="assets/images/users/avatar-1.jpg" alt="" class="img-thumbnail rounded-circle">
                         </div>
-                        <h5 class="font-size-15 text-truncate">test</h5>
-                        <p class="text-muted mb-0 text-truncate">superadmin</p>
+                        <h5 class="font-size-15 text-truncate">{{ @Auth::user()->name }}</h5>
+                        <p class="text-muted mb-0 text-truncate">{{ @Auth::user()->hasOneRole->role }}</p>
                     </div>
 
                     <div class="col-sm-5">
                         <div class="pt-4">
                             <div class="mt-4">
-                                <a href=""
-                                    class="btn btn-primary waves-effect waves-light btn-sm">View Profile <i
-                                        class="mdi mdi-arrow-right ml-1"></i></a>
+                                <a href="{{ route('admin.profile',['id'=>base64UrlEncode(@Auth::user()->id)]) }}" class="btn btn-primary waves-effect waves-light btn-sm">View Profile <i class="mdi mdi-arrow-right ml-1"></i></a>
                             </div>
                         </div>
                     </div>
@@ -71,7 +73,7 @@
                         <div class="media">
                             <div class="media-body">
                                 <p class="text-muted font-weight-medium">Total Roles</p>
-                                <h4 class="mb-0">3</h4>
+                                <h4 class="mb-0">{{ isset($dashboard['totalRoles']) ? $dashboard['totalRoles'] : 0}}</h4>
                             </div>
 
                             <div class="avatar-sm rounded-circle bg-primary align-self-center mini-stat-icon">
@@ -89,7 +91,7 @@
                         <div class="media">
                             <div class="media-body">
                                 <p class="text-muted font-weight-medium">Total Modules</p>
-                                <h4 class="mb-0">5</h4>
+                                <h4 class="mb-0">{{ isset($dashboard['totalModules']) ? $dashboard['totalModules'] : 0}}</h4>
                             </div>
 
                             <div class="avatar-sm rounded-circle bg-primary align-self-center mini-stat-icon">
@@ -107,66 +109,12 @@
                         <div class="media">
                             <div class="media-body">
                                 <p class="text-muted font-weight-medium">Total Users</p>
-                                <h4 class="mb-0">7</h4>
+                                <h4 class="mb-0">{{ isset($dashboard['totalUsers']) ? $dashboard['totalUsers'] : 0}}</h4>
                             </div>
 
                             <div class="mini-stat-icon avatar-sm rounded-circle bg-primary align-self-center">
                                 <span class="avatar-title">
                                     <i class="fas fa-users font-size-24"></i>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card mini-stats-wid">
-                    <div class="card-body">
-                        <div class="media">
-                            <div class="media-body">
-                                <p class="text-muted font-weight-medium">Total Admin Users</p>
-                                <h4 class="mb-0">44</h4>
-                            </div>
-
-                            <div class="avatar-sm rounded-circle bg-primary align-self-center mini-stat-icon">
-                                <span class="avatar-title rounded-circle bg-primary">
-                                    <i class="fas fa-user-friends font-size-24"></i>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card mini-stats-wid">
-                    <div class="card-body">
-                        <div class="media">
-                            <div class="media-body">
-                                <p class="text-muted font-weight-medium">Total Member</p>
-                                <h4 class="mb-0">2</h4>
-                            </div>
-
-                            <div class="avatar-sm rounded-circle bg-primary align-self-center mini-stat-icon">
-                                <span class="avatar-title rounded-circle bg-primary">
-                                    <i class="fas fa-user-friends font-size-24"></i>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card mini-stats-wid">
-                    <div class="card-body">
-                        <div class="media">
-                            <div class="media-body">
-                                <p class="text-muted font-weight-medium">Total Affiliate Users</p>
-                                <h4 class="mb-0">8</h4>
-                            </div>
-
-                            <div class="avatar-sm rounded-circle bg-primary align-self-center mini-stat-icon">
-                                <span class="avatar-title rounded-circle bg-primary">
-                                    <i class="fas fa-user-friends font-size-24"></i>
                                 </span>
                             </div>
                         </div>
