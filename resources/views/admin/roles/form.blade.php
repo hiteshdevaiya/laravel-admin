@@ -51,20 +51,17 @@ if(isset($edit) && !empty($edit)){
                                     @endif
                                 </div>
 
+                                @php $selected = (isset($edit) && !empty($edit)) ? $edit->status : ''; @endphp    
                                 <label class="col-md-2 col-form-label">Status</label>
                                 <div class="col-md-4">
                                     <select class="custom-select js-delivery @error('status') is-invalid @enderror" name="status" id="status">
-                                    @php $selected = (isset($edit) && !empty($edit)) ? $edit->status : '';  @endphp    
-                                    {!! getStatusDropdown(1,$selected) !!}
-                                        
+                                        {!! getStatusDropdown($selected) !!}
                                     </select>
                                     @if ($errors->has('status'))
                                         <span class="invalid-feedback" role="alert"><strong>{{ $errors->first('status') }}</strong></span>
                                     @endif
                                 </div>
                             </div>
-
-                           
 
                             <div class="button-items mt-3">
                                 <input class="btn btn-info" type="submit" value="Submit">

@@ -105,15 +105,11 @@ if(isset($edit) && !empty($edit)){
                         </div>
                     </div>
                     <div class="form-group row">
+                        @php $selected = (isset($edit) && !empty($edit)) ? $edit->status : ''; @endphp    
                         <label class="col-md-2 col-form-label">Status</label>
                         <div class="col-md-4">
                             <select class="custom-select js-delivery @error('status') is-invalid @enderror" name="status" id="status">
-                                <option value="">Select user role</option>
-                                @forelse($role as $onerole)
-                                    <option value="{{ $onerole->id }}" @if((isset($edit) && !empty($edit)) && ($edit->status == $onerole->id)) selected @endif)>{{ $onerole->role }}</option>
-                                @empty
-                                    <option value="">No Status Found</option>
-                                @endforelse
+                                {!! getStatusDropdown($selected) !!}
                             </select>
                             @if ($errors->has('status'))
                                 <span class="invalid-feedback" role="alert"><strong>{{ $errors->first('status') }}</strong></span>
@@ -156,14 +152,4 @@ if(isset($edit) && !empty($edit)){
     </div> <!-- end col -->
 </div>
 <!-- view end -->
-
-@endsection
-
-@section('script')
-    
-<script>
-
-
-</script>
-
 @endsection

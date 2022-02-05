@@ -44,4 +44,5 @@ class User extends Authenticatable
     public function hasOneRole(){
         return $this->hasOne('App\Models\Roles', 'id' ,'role_id');
     }
+    
 }

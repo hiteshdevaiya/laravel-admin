@@ -52,13 +52,16 @@ class UserController extends Controller
                 $action = '' ;
                 $nestedData['name'] = '<a href="'.route($this->parentRoute.'.form',['id'=>base64UrlEncode($one->id),'type'=>"permission"]).'">'.$one->name.'</a>';
                 $nestedData['email'] = $one->email;
-                $nestedData['role'] = $one->email;
-                $nestedData['status'] = $one->status;
+                $nestedData['role'] = isset($one->hasOneRole->role) ? $one->hasOneRole->role : '';
+
+                $nestedData['status'] = '<div class="square-switch">';
+                $nestedData['status'] .= '<input type="checkbox" id="square-access-'.$one->id.'" value="'.$one->status.'" switch="bool"';  
+                if($one->status == 1){ $nestedData['status'] .= 'checked'; } 
+                $nestedData['status'] .= ' onclick="updateStatus('.$one->id.')"/>';
+                $nestedData['status'] .= '<label for="square-access-'.$one->id.'" data-on-label="Yes" data-off-label="No"></label>';
+                $nestedData['status'] .= '</div>';
+                
                 $action .= '<a href="'.route($this->parentRoute.'.form',['id'=>base64UrlEncode($one->id)]).'" class=" btn btn-info btn-sm btn-rounded waves-effect waves-light" ><i class="fas fa-edit" title="edit"></i></a>';
-                if($one->role_id == 1)
-                { 
-                //$nestedData['status'] =  '<div class="square-switch mt-2"><input type="checkbox" id="square-access-'.$one->id. '" value="'.$one->status.'"  switch="bool" '.$status.'  onclick="updateActiveStatus()"/><label for="square-access-'.$one->id.'" data-on-label="YES" data-off-label="NO"></label></div>';
-                }
                 $action .=  '<button id="button" type="submit" class=" btn btn-danger btn-sm btn-rounded waves-effect  waves-light sa-remove " data-id='.$one->id.'><i class="fas fa-trash-alt"></i></button>';
                 $nestedData['action'] =  $action;
                 $data[] = $nestedData;               
@@ -134,6 +137,13 @@ class UserController extends Controller
                 $new->module_id = $request->moduleId;
                 $new->$action = 1;
                 $new->save();
+            }
+        }elseif(isset($request->type) && $request->type == "status"){
+            $check = $this->parentModel::find($request->id);
+            if(!empty($check)){
+                $getold = $check->status;
+                $check->status = $getold == "1" ? 0 : 1;
+                $check->save(); 
             }
         }else{   
             // echo '<pre>'; print_r($request->all()); die;

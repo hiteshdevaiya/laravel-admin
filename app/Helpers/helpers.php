@@ -59,16 +59,18 @@ if(!function_exists('getBreadcumb'))
 //get dropdown with selected task
 if(!function_exists('getStatusDropdown'))
 {
-    function getStatusDropdown($taskId,$selected=""){
+    function getStatusDropdown($selected=""){
+        // echo $selected;die;
+        $status = ['1'=>'Active','0'=>'Deactive'];
+
         $html = '<option value="">Select status</option>';
-        $status = Status::get();
         if(count($status)>0){
-            foreach($status as $one){
-                $html .= '<option value="'.$one->id.'"';
-                if($selected != "" && $selected == $one->id){
+            foreach($status as $key => $one){
+                $html .= '<option value="'.$key.'"';
+                if(($selected == $key)){
                     $html .= 'selected';
                 }
-                $html .= '>'.$one->name.'</option>';
+                $html .= '>'.$one.'</option>';
             }
         }
         return $html;
@@ -175,6 +177,20 @@ function getDashboard(){
     $html['totalModules'] = 0;
     $html['totalUsers'] = 0;
     return $html;
+}
+
+
+function get_access($moduleid,$type,$id=""){
+    $userId = $id != "" ? $id : Auth::id();
+    $moduleId = Application_modules::where('module', $moduleid)->first()->id;
+    $checkrole = Role_access_modules::where('role_id', $userRoleID)->where('application_module_id', $moduleId)->first();
+    $userRoleID = Users::with('user_roles')->whereIn('id', [Auth::id()])->first()->user_roles[0]->id;
+    if (Gate::allows($type,$checkrole)) {
+        return 1;
+    }
+    else{
+        return 0;
+    }
 }
 
 

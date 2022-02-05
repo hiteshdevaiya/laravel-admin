@@ -160,12 +160,11 @@ $(document).on('click', '#button', function () {
     //e.preventDefault();
     var $ele = $(this).parent().parent();
     var id = $(this).data('id');
-            var url = "{{URL('users')}}";
-            var destroyurl = url+"/"+id;
-
+    var url = "{{URL('users')}}";
+    var destroyurl = url+"/"+id;
 
     swal({
-             title: "Are you sure?",
+            title: "Are you sure?",
             text: "You want to delete this record",
             type: "warning",
             showCancelButton: true,
@@ -186,30 +185,41 @@ $(document).on('click', '#button', function () {
                 success: function (data) {
                     var dataResult = JSON.parse(data);
                 if(dataResult.statusCode==200){
-                    $ele.fadeOut().remove();
-                               swal({
-              title: "Done!",
-              text: "It was succesfully deleted!",
-              type: "success",
-              timer: 700
-           });
-    
-                      
-                    } 
+                $ele.fadeOut().remove();
+                swal({
+                    title: "Done!",
+                    text: "It was succesfully deleted!",
+                    type: "success",
+                    timer: 700
+                });   
+            } 
         }
-
-         });
-          }  
-    
-        else
+        });
+        }else
         {
              swal("Cancelled", "", "error");
         }
-            
-       
     });
-
 });
+
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+    function updateStatus(id) {
+        $.ajax({
+            type: "POST",
+            url: "{{ route('users.store') }}",
+            data: {
+                type: "status",id:id
+            },
+            success: function (response) {
+                console.log(response);
+                return false;
+            }
+        });
+    }
 
 </script>
 

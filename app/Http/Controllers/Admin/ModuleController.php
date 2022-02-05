@@ -48,6 +48,14 @@ class ModuleController extends Controller
             {
                 $action = '' ;
                 $nestedData['module'] = $one->module;
+
+                $nestedData['status'] = '<div class="square-switch">';
+                $nestedData['status'] .= '<input type="checkbox" id="square-access-'.$one->id.'" value="'.$one->status.'" switch="bool"';  
+                if($one->status == 1){ $nestedData['status'] .= 'checked'; } 
+                $nestedData['status'] .= ' onclick="updateStatus('.$one->id.')"/>';
+                $nestedData['status'] .= '<label for="square-access-'.$one->id.'" data-on-label="Yes" data-off-label="No"></label>';
+                $nestedData['status'] .= '</div>';
+
                 $action .= '<a href="'.route('modules.form',['id'=>base64UrlEncode($one->id)]).'" class=" btn btn-info btn-sm btn-rounded waves-effect waves-light" ><i class="fas fa-edit" title="edit"></i></a>';
                 $nestedData['action'] =  $action;
                 $data[] = $nestedData;               
@@ -76,21 +84,33 @@ class ModuleController extends Controller
     // crud operation
     public function store(Request $request)
     {
-        $request->validate([
-            'module' => 'required'
-        ]);
 
-        $store = new $this->parentModel;
-        $message = get_messages('Module created successfully!',1);
-        if(isset($request->id) && $request->id != "" && $request->id != 0){
-            $store = $this->parentModel::find($request->id);
-            $message = get_messages('Module updated successfully!',1);
+        if(isset($request->type) && $request->type == "status"){
+            $check = $this->parentModel::find($request->id);
+            if(!empty($check)){
+                $getold = $check->status;
+                $check->status = $getold == "1" ? 0 : 1;
+                $check->save(); 
+            }
+        }else{
+
+            $request->validate([
+                'module' => 'required'
+            ]);
+
+            $store = new $this->parentModel;
+            $message = get_messages('Module created successfully!',1);
+            if(isset($request->id) && $request->id != "" && $request->id != 0){
+                $store = $this->parentModel::find($request->id);
+                $message = get_messages('Module updated successfully!',1);
+            }
+            $store->module = $request->module;
+            $store->status = $request->status;
+            $store->save();
+
+            Session::flash('message', $message);
+            return redirect()->route('modules');
         }
-        $store->module = $request->module;
-        $store->save();
-
-        Session::flash('message', $message);
-        return redirect()->route('modules');
     }
 
     // destory record

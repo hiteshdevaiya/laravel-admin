@@ -42,6 +42,7 @@
                             <tr>
                                 <th>No.</th>
                                 <th>Modules</th>
+                                <th>Status</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -117,12 +118,35 @@
                 {
                     targets: 2,
                     render: function (data, type, row) {
+                        return row['status'];
+                    }
+                },
+                {
+                    targets: 3,
+                    render: function (data, type, row) {
                         return  row['action'];
                     }
                 }
-
-                
             ]
+        });
+    }
+
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+    function updateStatus(id) {
+        $.ajax({
+            type: "POST",
+            url: "{{ route('roles.store') }}",
+            data: {
+                type: "status",id:id
+            },
+            success: function (response) {
+                console.log(response);
+                return false;
+            }
         });
     }
 </script>       
