@@ -78,7 +78,7 @@
 
                             <div class="avatar-sm rounded-circle bg-primary align-self-center mini-stat-icon">
                                 <span class="avatar-title rounded-circle bg-primary">
-                                    <i class="bx bxs-user-detail font-size-24"></i>
+                                    <i class="bx bx-user-voice font-size-24"></i>
                                 </span>
                             </div>
                         </div>
@@ -96,7 +96,7 @@
 
                             <div class="avatar-sm rounded-circle bg-primary align-self-center mini-stat-icon">
                                 <span class="avatar-title rounded-circle bg-primary">
-                                    <i class="fas fa-list font-size-24"></i>
+                                    <i class="bx bxs-grid font-size-24"></i>
                                 </span>
                             </div>
                         </div>
@@ -114,7 +114,7 @@
 
                             <div class="mini-stat-icon avatar-sm rounded-circle bg-primary align-self-center">
                                 <span class="avatar-title">
-                                    <i class="fas fa-users font-size-24"></i>
+                                    <i class="bx bx-user-plus font-size-24"></i>
                                 </span>
                             </div>
                         </div>
