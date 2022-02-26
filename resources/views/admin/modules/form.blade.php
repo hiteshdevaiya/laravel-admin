@@ -4,6 +4,7 @@
 
 $module = "Module";
 $titleModule = "Add ".$module;
+$moduleList = $module." List ";
 
 $id = 0;
 if(isset($edit) && !empty($edit)){
@@ -17,25 +18,11 @@ if(isset($edit) && !empty($edit)){
 
 @section('content')
 
-<!-- start page title -->
-<div class="row">
-    <div class="col-12">
-        <div class="page-title-box d-flex align-items-center justify-content-between">
-            <h4 class="mb-0 font-size-18">Edit Modules</h4>
+<!-- breadcumd start -->
+{!! getBreadcumb($module,['modules'=>$moduleList,'same'=>$titleModule]) !!}
+<!-- breadcumd end -->
 
-            <div class="page-title-right">
-                <ol class="breadcrumb m-0">
-                    <li class="breadcrumb-item"><a href="{{ url('/index') }}">Dashboard</a></li>
-                    <li class="breadcrumb-item"><a href="{{ route('modules') }}">Modules</a></li>
-                    <li class="breadcrumb-item active"> Edit Modules</li>
-                </ol>
-            </div>
-
-        </div>
-    </div>
-</div>
-<!-- end page title -->
-
+<!-- view start -->
 <div class="row">
     <div class="col-12">
         <div class="card">
@@ -74,6 +61,5 @@ if(isset($edit) && !empty($edit)){
         </div>
     </div> <!-- end col -->
 </div>
-<!-- end row -->
-
+<!-- view end -->
 @endsection

@@ -10,4 +10,5 @@ class UserAccessModules extends Model
 {
     use SoftDeletes;
     protected $table = 'user_access_modules';
+    protected $dates = ['deleted_at'];
 }

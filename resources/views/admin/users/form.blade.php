@@ -3,6 +3,7 @@
 @php
 $module = "User";
 $titleModule = "Add ".$module;
+$moduleList = $module." List ";
 
 $id = 0;
 if(isset($edit) && !empty($edit)){
@@ -16,7 +17,7 @@ if(isset($edit) && !empty($edit)){
 @section('content')
 
 <!-- breadcumd start -->
-{!! getBreadcumb($module,$titleModule,'users') !!}
+{!! getBreadcumb($module,['users'=>$moduleList,'same'=>$titleModule]) !!}
 <!-- breadcumd end -->
 
 <!-- view start -->

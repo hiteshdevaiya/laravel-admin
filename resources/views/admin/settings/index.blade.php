@@ -16,7 +16,7 @@ if(isset($edit) && !empty($edit)){
 @section('content')
 
 <!-- breadcumd start -->
-{!! getBreadcumb($module,$titleModule,'settings') !!}
+{!! getBreadcumb($module,['settings'=>$module]) !!}
 <!-- breadcumd end -->
 
 <!-- view start -->

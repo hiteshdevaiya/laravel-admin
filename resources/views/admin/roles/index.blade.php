@@ -3,24 +3,12 @@
 @section('title','Role List')
  
 @section('content')
-<!-- start page title -->
-<div class="row">
-    <div class="col-12">
-        <div class="page-title-box d-flex align-items-center justify-content-between">
-            <h4 class="mb-0 font-size-18">Modules</h4>
 
-            <div class="page-title-right">
-                <ol class="breadcrumb m-0">
-                    <li class="breadcrumb-item"><a href="{{ url('/index') }}">Dashboard</a></li>
-                    <li class="breadcrumb-item active">Modules</li>
-                </ol>
-            </div>
+<!-- breadcumd start -->
+{!! getBreadcumb('Roles',['roles'=>'Role List']) !!}
+<!-- breadcumd end -->
 
-        </div>
-    </div>
-</div>
-<!-- end page title -->
-
+<!-- view start -->
 <div class="row">
     <div class="col-lg-6">
         <a class="btn btn-info waves-effect waves-light mb-3"  href="{{ route('roles.form') }}" role="button"><i class="fas fa-plus"></i> Add New</a>
@@ -35,13 +23,13 @@
         @endif
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title mb-4">Module List</h4>
+                <h4 class="card-title mb-4">Role List</h4>
                 <div class="table-responsive">
                         <table id="datatables" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                         <thead class="thead-light">
                             <tr>
                                 <th>No.</th>
-                                <th>Modules</th>
+                                <th>Role</th>
                                 <th>Status</th>
                                 <th>Action</th>
                             </tr>
@@ -53,6 +41,7 @@
         </div>
     </div>
 </div>
+<!-- view end -->
 @endsection	
 
 @section('script')
@@ -98,9 +87,7 @@
                 "cache": true
             },
             success:function($res){
-                // alert("hii");
-                console.log("hhh");
-                // return false;
+                
             },
             'columnDefs': [
                 {

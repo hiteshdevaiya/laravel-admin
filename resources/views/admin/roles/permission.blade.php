@@ -4,6 +4,7 @@
 
 $module = "Role Permission";
 $titleModule = "Add ".$module;
+$moduleList = $module." List";
 
 $id = 0;
 if(isset($edit) && !empty($edit)){
@@ -18,8 +19,8 @@ if(isset($edit) && !empty($edit)){
 @section('content')
 
 <!-- breadcumd start -->
-{!! getBreadcumb($module,$titleModule,'roles') !!}
-<!-- breadcumd end  -->
+{!! getBreadcumb($module,['roles'=>$moduleList,'same'=>$titleModule]) !!}
+<!-- breadcumd end -->
 
 <!-- view start -->
 <div class="row">

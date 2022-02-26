@@ -10,7 +10,7 @@ class Roles extends Model
 {
 	use SoftDeletes;
 	// protected $table='application_modules';
-    // protected $dates = ['deleted_at'];
+    protected $dates = ['deleted_at'];
 }
 
 ?>

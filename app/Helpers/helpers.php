@@ -37,16 +37,21 @@ if(!function_exists('base64UrlDecode'))
 // bradcumb
 if(!function_exists('getBreadcumb'))
 {
-    function getBreadcumb($module,$titleModule,$parentRoute){
+    function getBreadcumb($module,$data){
+        // echo '<pre>'; print_r($data); die;
         $html = '<div class="row">';
             $html .= '<div class="col-12">';
                 $html .='<div class="page-title-box d-flex align-items-center justify-content-between">';
-                $html .= '<h4 class="mb-0 font-size-18">'.$titleModule.'</h4>';
+                $html .= '<h4 class="mb-0 font-size-18">'.$module.'</h4>';
                     $html .= '<div class="page-title-right">';
                         $html .= '<ol class="breadcrumb m-0">';
                             $html .= '<li class="breadcrumb-item"><a href="'.route('admin.dashboard').'">Dashboard</a></li>';
-                            $html .= '<li class="breadcrumb-item"><a href="'.route($parentRoute).'">'.$module.'</a></li>';
-                            $html .= '<li class="breadcrumb-item active">'.ucfirst($titleModule).'</li>';
+                            if(count($data)>0){
+                                foreach($data as $key=>$one){
+                                    $route = $key != 'same' ? route($key) : "";
+                                    $html .= '<li class="breadcrumb-item"><a href="'.$route.'">'.ucfirst($one).'</a></li>';
+                                }
+                            }
                         $html .= '</ol>';
                     $html .= '</div>';
                 $html .= '</div>';
@@ -94,7 +99,6 @@ if(!function_exists('checkUserPermission'))
     }
 }
 
-
 if(!function_exists('templateUrl'))
 {
     function templateUrl($path=""){
@@ -115,7 +119,6 @@ if(!function_exists('checkCurrentUrl'))
         return $return;
     }
 }
-
 
 function getMailSetting(){
     $get = Settings::where('name', 'SMTP')->first();
@@ -173,9 +176,9 @@ function getUserImage($id=""){
 
 function getDashboard(){
     $html = [];
-    $html['totalRoles'] = 0;
-    $html['totalModules'] = 0;
-    $html['totalUsers'] = 0;
+    $html['totalRoles'] = Roles::count();
+    $html['totalModules'] = Modules::count();
+    $html['totalUsers'] = User::count();
     return $html;
 }
 

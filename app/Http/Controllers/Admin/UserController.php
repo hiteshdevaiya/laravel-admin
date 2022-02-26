@@ -62,7 +62,7 @@ class UserController extends Controller
                 $nestedData['status'] .= '</div>';
                 
                 $action .= '<a href="'.route($this->parentRoute.'.form',['id'=>base64UrlEncode($one->id)]).'" class=" btn btn-info btn-sm btn-rounded waves-effect waves-light" ><i class="fas fa-edit" title="edit"></i></a>';
-                $action .=  '<button id="button" type="submit" class=" btn btn-danger btn-sm btn-rounded waves-effect  waves-light sa-remove " data-id='.$one->id.'><i class="fas fa-trash-alt"></i></button>';
+                $action .=  '<button id="button" type="submit" class=" btn btn-danger btn-sm btn-rounded waves-effect  waves-light sa-remove " data-route="'.route($this->parentRoute.'.delete').'" data-id='.$one->id.'><i class="fas fa-trash-alt"></i></button>';
                 $nestedData['action'] =  $action;
                 $data[] = $nestedData;               
             }    
@@ -214,12 +214,11 @@ class UserController extends Controller
     }
 
     // destory record
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        $moduleDetails = $this->parentModel::findOrFail($id);
-        $moduleDetails->delete();
-        $message = get_messages('Module deleted successfully!',1);
-        Session::flash('message', $message);
-        return redirect()->route($this->parentRoute);
+        $del = $this->parentModel::findOrFail($request->id);
+        $del->delete();
+        $data['status'] = "200";
+        echo json_encode($data); exit;
     }
 }

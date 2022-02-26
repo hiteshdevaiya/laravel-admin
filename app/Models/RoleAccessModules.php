@@ -10,4 +10,5 @@ class RoleAccessModules extends Model
 {
     use SoftDeletes;
     protected $table = 'role_access_modules';
+    protected $dates = ['deleted_at'];
 }

@@ -78,3 +78,59 @@ $('#vertical-menu-btn').on('click', function() {
     var sidebarflag = (localStorage.getItem('sidebar') == null || localStorage.getItem('sidebar') == 0) ? 1 : 0; 
     localStorage.setItem('sidebar',sidebarflag);
 });
+
+$(document).on('click', '#button', function () {
+    //e.preventDefault();
+    var $ele = $(this).parent().parent();
+    var id = $(this).data('id');
+    var destroyurl = $(this).data('route');
+    var token = $("meta[name='csrf-token']").attr("content");
+    swal({
+            title: "Are you sure?",
+            text: "You want to delete this record",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Yes, Delete it!",
+            cancelButtonText: "No, cancel please!",
+            closeOnConfirm: false,
+            closeOnCancel: true
+        },
+        function(isConfirm) {
+        if (isConfirm) {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                type: "DELETE",
+                url:destroyurl,
+                data: {
+                    "id": id,
+                    "_token": token,
+                },
+                success: function (data) {
+                    var dataResult = JSON.parse(data);
+                    if(dataResult.status==200){
+                        $ele.fadeOut().remove();
+                        swal({
+                            title: "Done!",
+                            text: "It was succesfully deleted!",
+                            type: "success",
+                            timer: 700
+                        });   
+                    } else if(dataResult.status==0) {
+                        swal({
+                            title: "Cancelled!",
+                            text: dataResult.message,
+                            type: "warning"
+                        });   
+                    }
+                }
+            });
+        }else{
+            swal("Cancelled", "", "error");
+        }
+    });
+});

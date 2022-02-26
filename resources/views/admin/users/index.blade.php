@@ -5,7 +5,7 @@
 @section('content')
 
 <!-- breadcumd start -->
-{!! getBreadcumb('user list','user','users') !!}
+{!! getBreadcumb('Users',['users'=>'User List']) !!}
 <!-- breadcumd end -->
 
 <!-- view start -->
@@ -23,7 +23,7 @@
         @endif
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title mb-4">Module List</h4>
+                <h4 class="card-title mb-4">User List</h4>
                 <div class="table-responsive">
                     <table id="datatables" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                     <thead class="thead-light">
@@ -111,8 +111,7 @@ $(document).ready(function () {
                     "cache": true
                 },
                 success:function($res){
-                    console.log(res);
-                    return false;
+                    
                 },
                 'columnDefs': [
                     {
@@ -154,53 +153,6 @@ $(document).ready(function () {
                 ]
             });
         }
-
-
-$(document).on('click', '#button', function () {
-    //e.preventDefault();
-    var $ele = $(this).parent().parent();
-    var id = $(this).data('id');
-    var url = "{{URL('users')}}";
-    var destroyurl = url+"/"+id;
-
-    swal({
-            title: "Are you sure?",
-            text: "You want to delete this record",
-            type: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#DD6B55",
-            confirmButtonText: "Yes, Delete it!",
-            cancelButtonText: "No, cancel please!",
-            closeOnConfirm: false,
-            closeOnCancel: true
-        },
-        function(isConfirm) {
-            if (isConfirm) {
-             
-            $.ajax({
-                type: "DELETE",
-                url:destroyurl, 
-                data:{ _token:'{{ csrf_token() }}'},
-                dataType: "html",
-                success: function (data) {
-                    var dataResult = JSON.parse(data);
-                if(dataResult.statusCode==200){
-                $ele.fadeOut().remove();
-                swal({
-                    title: "Done!",
-                    text: "It was succesfully deleted!",
-                    type: "success",
-                    timer: 700
-                });   
-            } 
-        }
-        });
-        }else
-        {
-             swal("Cancelled", "", "error");
-        }
-    });
-});
 
     $.ajaxSetup({
         headers: {
